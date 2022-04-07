@@ -1,0 +1,25 @@
+name: coverage
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: install nox
+        run: pip install nox
+      - name: run coverage
+        run: nox -s coverage-3
+      - name: codecov upload
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml

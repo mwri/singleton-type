@@ -1,0 +1,9 @@
+/.coverage
+/.vscode
+/build
+/dist
+/singleton_type.egg-info
+__pycache__/
+/venv
+/coverage.xml
+/.nox

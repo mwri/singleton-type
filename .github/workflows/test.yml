@@ -1,0 +1,30 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        pyvsn:
+          - '3.6'
+          - '3.7'
+          - '3.8'
+          - '3.9'
+          - '3.10'
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python ${{ matrix.pyvsn }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.pyvsn }}
+      - name: install nox
+        run: pip install nox
+      - name: run tests
+        run: nox -s test-${{ matrix.pyvsn }}
