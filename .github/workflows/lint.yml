@@ -17,4 +17,4 @@ jobs:
       - name: install nox
         run: pip install nox
       - name: run black and isort
-        run: nox -s isort-3
+        run: nox -s lint-3
