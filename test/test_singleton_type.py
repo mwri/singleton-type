@@ -86,7 +86,7 @@ def test_singleton_subclasses_instantiate_same_obj():
     assert id(TestSingletonB()) == id(TestSingletonB())
 
 
-def test_singleton_subclasses_instantiate_diff_objs_to_superclass():
+def test_singleton_subclasses_instantiate_diff_objs_to_superclass_1():
     class TestSingletonA(metaclass=Singleton):
         pass
 
@@ -96,7 +96,17 @@ def test_singleton_subclasses_instantiate_diff_objs_to_superclass():
     assert id(TestSingletonB()) != id(TestSingletonA())
 
 
-def test_singleton_subclasse_siblings_instantiate_diff_objs():
+def test_singleton_subclasses_instantiate_diff_objs_to_superclass_2():
+    class TestSingletonA(metaclass=Singleton):
+        pass
+
+    class TestSingletonB(TestSingletonA):
+        pass
+
+    assert id(TestSingletonA()) != id(TestSingletonB())
+
+
+def test_singleton_subclass_siblings_instantiate_diff_objs():
     class TestSingletonA(metaclass=Singleton):
         pass
 
