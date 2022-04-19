@@ -128,34 +128,35 @@ class Singleton(type):
             return super().__init__("define all or none of singleton_ref, singleton_set_ref and singleton_detach_ref")
 
     def __new__(meta_cls, name, bases, dct):
+        @classmethod
+        def default_singleton_ref(cls, *args, **kwargs):
+            return cls._singleton_ref
+
+        @classmethod
+        def default_singleton_set_ref(cls, obj, *args, **kwargs):
+            cls._singleton_ref = obj
+
+        def default_singleton_detach_ref(self):
+            type(self)._singleton_ref = None
+
         cls = super().__new__(meta_cls, name, bases, dct)
 
-        if hasattr(cls, "singleton_ref") or hasattr(cls, "singleton_set_ref") or hasattr(cls, "singleton_detach_ref"):
-            if not hasattr(cls, "singleton_ref"):
-                raise Singleton.ClsImplError()
-            if not hasattr(cls, "singleton_set_ref"):
-                raise Singleton.ClsImplError()
-            if not hasattr(cls, "singleton_detach_ref"):
+        has_get_ref_impl = "singleton_ref" in cls.__dict__
+        has_set_ref_impl = "singleton_set_ref" in cls.__dict__
+        has_detach_ref_impl = "singleton_detach_ref" in cls.__dict__
+
+        if has_get_ref_impl or has_set_ref_impl or has_detach_ref_impl:
+            if not has_get_ref_impl or not has_set_ref_impl or not has_detach_ref_impl:
                 raise Singleton.ClsImplError()
         else:
+            if not hasattr(cls, "singleton_ref"):
+                cls.singleton_ref = default_singleton_ref
+            if not hasattr(cls, "singleton_set_ref"):
+                cls.singleton_set_ref = default_singleton_set_ref
+            if not hasattr(cls, "singleton_detach_ref"):
+                cls.singleton_detach_ref = default_singleton_detach_ref
+
             cls._singleton_ref = None
-
-            @classmethod
-            def singleton_ref(cls, *args, **kwargs):
-                return cls._singleton_ref
-
-            cls.singleton_ref = singleton_ref
-
-            @classmethod
-            def singleton_set_ref(cls, obj, *args, **kwargs):
-                cls._singleton_ref = obj
-
-            cls.singleton_set_ref = singleton_set_ref
-
-            def singleton_detach_ref(self):
-                type(self)._singleton_ref = None
-
-            cls.singleton_detach_ref = singleton_detach_ref
 
         cls._singleton_ref_lock = threading.Lock()
 
