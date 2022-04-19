@@ -3,7 +3,7 @@
 import sys
 
 name = "singleton-type"
-version = "0.0.3"
+version = "0.0.4"
 author = "Michael Wright"
 author_email = "mjw@methodanalysis.com"
 description = "Singleton meta class implementation"
