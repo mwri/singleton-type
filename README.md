@@ -36,7 +36,7 @@ passed to the constructor will be passed as normal, again as you might expect.
 
 ## Advanced topics
 
-Most design scenarios where a singleton would not see the possibility that
+Most design scenarios calling for a singleton would not see the possibility that
 constructor arguments would vary, but if they do, then the second set of
 arguments will obviously be ineffective. This is almost never a problem because
 it would simply not be done when a singleton pattern is prescriptive. Some
@@ -45,7 +45,7 @@ as a object/singleton per unique arguments... and this behaviour can be easily
 implemented by providing some additional methods.
 
 There are three such methods, and your target class must implement all or none
-of them:
+of them.
 
 First `singleton_ref`, this class method is passed the constructor arguments
 and must return the existing singleton object, or `None` if not instantiated
@@ -58,12 +58,12 @@ given (such that `singleton_ref` will return it next time it is called). A
 lock will be acquired before this class method is called in order to protect
 thread safety.
 
-Last `singleton_detach_ref`, this is an object class method rather than a class
+Last `singleton_detach_ref`, this is an object method rather than a class
 method, passed no arguments beyond the mandatory `self`, and it must undo
 `singleton_set_ref` such that there is no longer a singleton in effect (there
 may still be references to the previous singleton object of course).
 This is an object method rather than a class method so that the detach may
-depend on state than the class itself.
+depend on object state than the class itself.
 
 It should be clear then why all or none of these methods must be implemented
 by the target class, their operation must work in tandem and of necessity will
@@ -103,7 +103,7 @@ ObjectCache('bar') will always yield the same object, but the "foo" and "bar"
 objects will be different to each other.
 
 The intent here is that the mapping from the parameter domain (class being a
-parameter of course) to the set of instances can governed in any
+parameter of course) to the set of instances, can governed in any
 way desired. Although a less likely requirement, the number of instances can
 be reduced as well as expanded, so for example the following would cause all
 the instances of a class and any instances of any sub class, to be a singleton
@@ -114,14 +114,14 @@ together, so there would only ever be one instance for all the classes:
 
         @classmethod
         def singleton_ref(cls):
-            return TestSingletonA._singleton_ref
+            return SuperClass._singleton_ref
 
         @classmethod
         def singleton_set_ref(cls, obj):
-            TestSingletonA._singleton_ref = obj
+            SuperClass._singleton_ref = obj
 
         def singleton_detach_ref(self):
-            TestSingletonA._singleton_ref = None
+            SuperClass._singleton_ref = None
 
     class SubClass(SuperClass):
         pass
