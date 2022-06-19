@@ -1,0 +1,20 @@
+name: mypy
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: install nox
+        run: pip install nox
+      - name: run mypy
+        run: nox -s mypy-3

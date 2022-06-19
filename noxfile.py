@@ -49,6 +49,15 @@ def lint(session):
 
 
 @nox.session(python=[default_pyvsn])
+def mypy(session):
+    session.install("mypy")
+    session.run(
+        "mypy",
+        "singleton_type",
+    )
+
+
+@nox.session(python=[default_pyvsn])
 def coverage(session):
     session.install("coverage", "pytest")
     session.run(

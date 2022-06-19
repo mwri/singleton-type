@@ -1,6 +1,8 @@
 """Package meta data."""
 
+
 import sys
+from typing import Any, Dict, List
 
 name = "singleton-type"
 version = "0.0.4"
@@ -15,12 +17,12 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-entry_points = {
+entry_points: Dict[str, Any] = {
     "console_scripts": [],
 }
 
 python_requires = ">=3.6"
-install_requires = []
+install_requires: List[str] = []
 
 extras_require = {
     "dev": [
@@ -28,6 +30,7 @@ extras_require = {
         "coverage==6.3.2",
         "black==22.3.0",
         "isort==5.10.1",
+        "mypy==0.961",
     ],
 }
 

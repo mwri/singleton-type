@@ -55,6 +55,11 @@ lint: venv venv/lib/.dev_deps
 		&& isort --check \
 			singleton_type test
 
+.PHONY: mypy
+mypy: venv venv/lib/.dev_deps
+	. venv/bin/activate \
+		&& mypy singleton_type
+
 .PHONY: clean
 clean:
 	rm -rf ./venv ./*.egg-info ./build ./pip_dist ./htmlcov ./coverage.xml \

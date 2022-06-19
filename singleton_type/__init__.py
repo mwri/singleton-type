@@ -124,15 +124,13 @@ class Singleton(type):
     """Singleton meta class. Makes classes into singletons."""
 
     class ClsImplError(Exception):
-        def __init__(self):
+        def __init__(self) -> None:
             return super().__init__("define all or none of singleton_ref, singleton_set_ref and singleton_detach_ref")
 
     def __new__(meta_cls, name, bases, dct):
-        @classmethod
         def default_singleton_ref(cls, *args, **kwargs):
             return cls._singleton_ref
 
-        @classmethod
         def default_singleton_set_ref(cls, obj, *args, **kwargs):
             cls._singleton_ref = obj
 
@@ -150,9 +148,9 @@ class Singleton(type):
                 raise Singleton.ClsImplError()
         else:
             if not hasattr(cls, "singleton_ref"):
-                cls.singleton_ref = default_singleton_ref
+                cls.singleton_ref = classmethod(default_singleton_ref)
             if not hasattr(cls, "singleton_set_ref"):
-                cls.singleton_set_ref = default_singleton_set_ref
+                cls.singleton_set_ref = classmethod(default_singleton_set_ref)
             if not hasattr(cls, "singleton_detach_ref"):
                 cls.singleton_detach_ref = default_singleton_detach_ref
 
