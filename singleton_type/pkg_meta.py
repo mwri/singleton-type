@@ -5,7 +5,7 @@ import sys
 from typing import Any, Dict, List
 
 name = "singleton-type"
-version = "0.0.4"
+version = "0.0.5"
 author = "Michael Wright"
 author_email = "mjw@methodanalysis.com"
 description = "Singleton meta class implementation"
