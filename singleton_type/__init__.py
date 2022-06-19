@@ -167,7 +167,7 @@ class Singleton(type):
             with cls._singleton_ref_lock:
                 obj = cls.singleton_ref(*args, **kwargs)
 
-                if obj is None:
+                if obj is None:  # pragma: no branch
                     obj = cls.__new__(cls, *args, **kwargs)
                     cls.__init__(obj, *args, **kwargs)
 
